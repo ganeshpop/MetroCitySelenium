@@ -28,7 +28,7 @@ public class SwipeInTest {
         Thread.sleep(2000);
         WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
         cardIdTextBox.clear();
-        cardIdTextBox.sendKeys("1009");
+        cardIdTextBox.sendKeys("1001");
         WebElement passwordTextBox = webDriver.findElement(By.id("password"));
         passwordTextBox.clear();
         passwordTextBox.sendKeys("password");
@@ -42,8 +42,8 @@ public class SwipeInTest {
             int randomNumber = ThreadLocalRandom.current().nextInt(0, 4 + 1);
             List<WebElement> stationList = webDriver.findElements(By.className("rad-label")); //Get Stations
             System.out.println("Selected Swipe In Station " + stationList.get(randomNumber).getText());
-            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber)); //Select a Random Station
-            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block"))); // SwipeIn Button
+            ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber)); //Select a Random Station
+            ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block"))); // SwipeIn Button
         } catch (Exception exception) {
             Thread.sleep(3000);
             exception.printStackTrace();
