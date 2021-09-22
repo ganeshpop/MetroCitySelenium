@@ -1,4 +1,4 @@
-package launch;
+package tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -19,32 +19,39 @@ public class SwipeInTest {
         chromeOptions.setHeadless(false);
         webDriver = new ChromeDriver(chromeOptions);
         webDriver.manage().window().maximize();
+
+        //Home Page
         webDriver.get("https://citymetro.azurewebsites.net");
-        WebElement loginButton = webDriver.findElement(By.className("button-primary"));
-        loginButton.click();
+
+        //Login
+        webDriver.findElement(By.className("button-primary")).click(); //Login Button
         Thread.sleep(2000);
         WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
         cardIdTextBox.clear();
-        cardIdTextBox.sendKeys("1011");
+        cardIdTextBox.sendKeys("1009");
         WebElement passwordTextBox = webDriver.findElement(By.id("password"));
         passwordTextBox.clear();
-        passwordTextBox.sendKeys("1011");
-        webDriver.findElement(By.className("button-block")).click();
+        passwordTextBox.sendKeys("password");
+        webDriver.findElement(By.className("button-block")).click(); //Login Button
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(5) > a")).click();
+        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(5) > a")).click(); //SwipeIn Button
         Thread.sleep(1000);
+
+        //SwipeIn
         try {
             int randomNumber = ThreadLocalRandom.current().nextInt(0, 4 + 1);
-            List<WebElement> stationList = webDriver.findElements(By.className("rad-label"));
-            System.out.println("Selected Station " + stationList.get(randomNumber).getText());
-            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber));
-            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block")));
+            List<WebElement> stationList = webDriver.findElements(By.className("rad-label")); //Get Stations
+            System.out.println("Selected Swipe In Station " + stationList.get(randomNumber).getText());
+            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber)); //Select a Random Station
+            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block"))); // SwipeIn Button
         } catch (Exception exception) {
             Thread.sleep(3000);
             exception.printStackTrace();
         }
         Thread.sleep(2000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click();
+
+        //Logout
+        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
         Thread.sleep(2000);
         webDriver.close();
     }

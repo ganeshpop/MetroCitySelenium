@@ -1,25 +1,27 @@
-package launch;
+package tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginTest {
     static WebDriver webDriver;
 
     public static void main(String[] args) throws InterruptedException {
+        //Chrome Driver
         System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setHeadless(false);
         webDriver = new ChromeDriver(chromeOptions);
         webDriver.manage().window().maximize();
+
+        //Home Page
         webDriver.get("https://citymetro.azurewebsites.net");
-        WebElement loginButton = webDriver.findElement(By.className("button-primary"));
-        loginButton.click();
+
+        //Login
+        webDriver.findElement(By.className("button-primary")).click(); //Login Button
         Thread.sleep(2000);
         WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
         cardIdTextBox.clear();
@@ -27,17 +29,11 @@ public class LoginTest {
         WebElement passwordTextBox = webDriver.findElement(By.id("password"));
         passwordTextBox.clear();
         passwordTextBox.sendKeys("password");
-        WebElement loginButtonInLoginPage = webDriver.findElement(By.className("button-block"));
-        loginButtonInLoginPage.click();
+        webDriver.findElement(By.className("button-block")).click(); //Login Button
         Thread.sleep(2000);
-        WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
-        try {
-            webDriverWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("body > nav > ul > li:nth-child(8) > a")));
-            WebElement logoutButton = webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a"));
-            logoutButton.click();
-        } catch (Exception exception){
-            exception.printStackTrace();
-        }
+
+        //Logout
+        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
         Thread.sleep(2000);
         webDriver.close();
     }
