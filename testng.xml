@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"
+          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/LoginTestCase.java">
+        <classes>
+            <class name="testng.LoginTestCase">
+                <methods>
+                    <include name="loginValidUser"/>
+                    <include name="loginInvalidUser"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test verbose="2" preserve-order="true"
+          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/RechargeTestCase.java">
+        <classes>
+            <class name="testng.RechargeTestCase">
+                <methods>
+                    <include name="rechargeCardWithValidAmount"/>
+                    <include name="rechargeCardWithInvalidAmount"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test verbose="2" preserve-order="true"
+          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/SwipeInTestCase.java">
+        <classes>
+            <class name="testng.SwipeInTestCase">
+                <methods>
+                    <include name="validSwipeIn"/>
+                    <include name="InvalidSwipeIn"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test verbose="2" preserve-order="true"
+          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/SwipeOutTestCase.java">
+        <classes>
+            <class name="testng.SwipeOutTestCase">
+                <methods>
+                    <include name="validSwipeOut"/>
+                    <include name="InvalidSwipeOut"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

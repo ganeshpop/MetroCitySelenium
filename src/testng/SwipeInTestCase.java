@@ -32,7 +32,7 @@ public class SwipeInTestCase {
 
     @DataProvider(name = "validSwipeInDetails")
     public static Object[][] validSwipeInDetails() {
-        return new Object[][]{{"1009", "password"}, {"1010", "password"}, /*{"1011", "1011"}*/};
+        return new Object[][]{{"1009", "password"}, {"1010", "password"} /*, {"1011", "1011"}*/};
     }
 
 
@@ -64,7 +64,7 @@ public class SwipeInTestCase {
 
     @DataProvider(name = "invalidSwipeInDetails")
     public static Object[][] invalidSwipeInDetails() {
-        return new Object[][]{{"1003", "password"}, {"1004", "password"}, /*{"1005", "password"}*/};
+        return new Object[][]{{"1003", "password"}, {"1004", "password"}  /*, {"1005", "password"}*/};
     }
 
     @Test(dataProvider = "invalidSwipeInDetails", priority = 5, testName = "Invalid Swipe In")

@@ -32,7 +32,7 @@ public class SwipeOutTestCase {
 
     @DataProvider(name = "validSwipeOutDetails")
     public static Object[][] validSwipeOutDetails() {
-        return new Object[][]{{"1009", "password"}, {"1010", "password"}, /*{"1011", "1011"}*/};
+        return new Object[][]{{"1009", "password"}, {"1010", "password"} /*, {"1011", "1011"}*/};
     }
 
 
@@ -64,7 +64,7 @@ public class SwipeOutTestCase {
 
     @DataProvider(name = "invalidSwipeOutDetails")
     public static Object[][] invalidSwipeOutDetails() {
-        return new Object[][]{{"1006", "password"}, {"1007", "password"}, /*{"1008", "password"}*/};
+        return new Object[][]{{"1006", "password"}, {"1007", "password"}/* , {"1008", "password"}*/};
     }
 
     @Test(dataProvider = "invalidSwipeOutDetails", priority = 5, testName = "Invalid Swipe Out")

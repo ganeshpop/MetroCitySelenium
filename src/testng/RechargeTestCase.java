@@ -28,7 +28,7 @@ public class RechargeTestCase {
 
     @DataProvider(name = "validRechargeDetails")
     public static Object[][] validRechargeDetails() {
-        return new Object[][]{{"1009", "password", 100}, {"1010", "password", 50}, {"1011", "1011", 10}};
+        return new Object[][]{{"1009", "password", 100}, {"1010", "password", 50} /*, {"1011", "1011", 10}*/};
     }
 
 
@@ -66,7 +66,7 @@ public class RechargeTestCase {
 
     @DataProvider(name = "invalidRechargeDetails")
     public static Object[][] invalidRechargeDetails() {
-        return new Object[][]{{"1009", "password", 0}, {"1010", "password", 1010}, {"1011", "1011", 20000}};
+        return new Object[][]{{"1009", "password", 0}, {"1010", "password", 1010} /*, {"1011", "1011", 20000}*/};
     }
 
 

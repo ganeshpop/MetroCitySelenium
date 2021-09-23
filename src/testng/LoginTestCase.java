@@ -26,7 +26,7 @@ public class LoginTestCase {
 
     @DataProvider(name = "validLoginDetails")
     public static Object[][] validLoginDetails() {
-        return new Object[][]{{"1009", "password"}, {"1010", "password"}, {"1011", "1011"}};
+        return new Object[][]{{"1009", "password"}, {"1010", "password"} /*, {"1011", "1011"}*/};
     }
 
 
@@ -49,7 +49,7 @@ public class LoginTestCase {
 
     @DataProvider(name = "invalidLoginDetails")
     public static Object[][] invalidLoginDetails() {
-        return new Object[][]{{"1109", "password"}, {"1010", "pass"}, {"1011", "password"}};
+        return new Object[][]{{"1109", "password"}, {"1010", "pass"} /*, {"1011", "password"}*/};
     }
 
 
