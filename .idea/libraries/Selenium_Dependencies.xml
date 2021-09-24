@@ -1,0 +1,47 @@
+<component name="libraryTable">
+  <library name="Selenium Dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Dependencies/okio-1.14.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-support-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-api-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/jsr305-1.3.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-remote-driver-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-ie-driver-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/okhttp-3.10.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-safari-driver-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-firefox-driver-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/httpclient-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-edge-driver-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/byte-buddy-1.8.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/commons-io-2.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/httpcore-4.4.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-opera-driver-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/commons-codec-1.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/j2objc-annotations-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/animal-sniffer-annotations-1.14.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/checker-compat-qual-2.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/selenium-chrome-driver-3.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/error_prone_annotations-2.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/guava-25.0-jre.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/commons-exec-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/poi-3.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/poi-examples-3.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/poi-excelant-3.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/poi-ooxml-3.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/poi-ooxml-schemas-3.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/poi-scratchpad-3.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/ooxml-lib/xmlbeans-2.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/ooxml-lib/curvesapi-1.04.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/lib/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/lib/commons-collections4-4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/lib/commons-codec-1.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Dependencies/poi-bin-3.16-20170419/poi-3.16/lib/junit-4.12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../Dependencies/jsr305-1.3.9.jar!/" />
+    </SOURCES>
+  </library>
+</component>

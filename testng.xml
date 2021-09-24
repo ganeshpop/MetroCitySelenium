@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite">
-    <test verbose="2" preserve-order="true"
+<suite name="City Metro Test Cases">
+    <test verbose="2"
           name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/LoginTestCase.java">
         <classes>
-            <class name="testng.LoginTestCase">
+            <class name="com.metro.testcases.LoginTestCase">
                 <methods>
                     <include name="loginValidUser"/>
                     <include name="loginInvalidUser"/>
@@ -12,10 +12,10 @@
             </class>
         </classes>
     </test>
-    <test verbose="2" preserve-order="true"
+    <test verbose="2"
           name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/RechargeTestCase.java">
         <classes>
-            <class name="testng.RechargeTestCase">
+            <class name="com.metro.testcases.RechargeTestCase">
                 <methods>
                     <include name="rechargeCardWithValidAmount"/>
                     <include name="rechargeCardWithInvalidAmount"/>
@@ -23,10 +23,10 @@
             </class>
         </classes>
     </test>
-    <test verbose="2" preserve-order="true"
+    <test verbose="2"
           name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/SwipeInTestCase.java">
         <classes>
-            <class name="testng.SwipeInTestCase">
+            <class name="com.metro.testcases.SwipeInTestCase">
                 <methods>
                     <include name="validSwipeIn"/>
                     <include name="InvalidSwipeIn"/>
@@ -34,10 +34,10 @@
             </class>
         </classes>
     </test>
-    <test verbose="2" preserve-order="true"
+    <test verbose="2"
           name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/SwipeOutTestCase.java">
         <classes>
-            <class name="testng.SwipeOutTestCase">
+            <class name="com.metro.testcases.SwipeOutTestCase">
                 <methods>
                     <include name="validSwipeOut"/>
                     <include name="InvalidSwipeOut"/>

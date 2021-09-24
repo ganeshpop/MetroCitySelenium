@@ -1,18 +1,19 @@
-package tests;
+package classes;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class TransactionDetailsTest {
+public class SwipeOutTest {
     static WebDriver webDriver;
 
     public static void main(String[] args) throws InterruptedException {
-        //Chrome Driver
         System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setHeadless(false);
@@ -32,27 +33,24 @@ public class TransactionDetailsTest {
         passwordTextBox.clear();
         passwordTextBox.sendKeys("password");
         webDriver.findElement(By.className("button-block")).click(); //Login Button
-        Thread.sleep(2000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(2) > a")).click(); //Transactions Button
         Thread.sleep(1000);
+        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(6) > a")).click(); //SwipeOut Button
+        Thread.sleep(1000);
+
+        //SwipeOut
         try {
-            //Transaction Details
-            List<WebElement> transactions = webDriver.findElements(By.xpath("/html/body/div/div/main/div/div/div/div/div/div[2]/table/tbody/tr"));
-            System.out.println(webDriver.findElement(By.xpath("/html/body/div/div/main/div/div/div/div/div/div[1]/table/thead/tr")).getText());
-            for (WebElement transaction : transactions) {
-                System.out.println("=====================================================================================================================");
-                System.out.println(transaction.getText());
-                System.out.println("=====================================================================================================================");
-            }
-            Thread.sleep(2000);
-            webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(1) > a")).click(); //Home Button
+            int randomNumber = ThreadLocalRandom.current().nextInt(0, 4 + 1);
+            List<WebElement> stationList = webDriver.findElements(By.className("rad-label")); //Get Stations
+            System.out.println("Selected Swipe Out Station " + stationList.get(randomNumber).getText());
+            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber)); //Select a Random Station
+            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block"))); // SwipeOut Button
         } catch (Exception exception) {
             Thread.sleep(3000);
             exception.printStackTrace();
         }
+        Thread.sleep(10000);
 
         //Logout
-        Thread.sleep(1000);
         webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
         Thread.sleep(2000);
         webDriver.close();
