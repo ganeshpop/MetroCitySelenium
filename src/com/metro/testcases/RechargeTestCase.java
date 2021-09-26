@@ -1,105 +1,95 @@
 package com.metro.testcases;
 
-import org.openqa.selenium.By;
+import com.metro.pages.*;
+import com.metro.utilities.ExcelReader;
+import com.metro.utilities.PropertyReader;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 public class RechargeTestCase {
     WebDriver webDriver;
 
     @BeforeMethod
-    public void openBrowser() {
-        System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+    public void openBrowser() throws IOException {
+        System.setProperty("webdriver.chrome.driver", PropertyReader.ReadProperty("chrome_driver_path"));
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setHeadless(false);
         webDriver = new ChromeDriver(chromeOptions);
         webDriver.manage().window().maximize();
-        webDriver.get("https://citymetro.azurewebsites.net");
+        webDriver.get(PropertyReader.ReadProperty("app_url"));
+        HomePage homePage = new HomePage(webDriver);
+        homePage.clickLoginButton();
     }
 
     @DataProvider(name = "validRechargeDetails")
     public static Object[][] validRechargeDetails() {
-        return new Object[][]{{"1009", "password", 100}, {"1010", "password", 50} /*, {"1011", "1011", 10}*/};
+        String filePath = System.getProperty("user.dir") + "/src/com/metro/testdata";
+        String fileName  = "MetroRechargeTestData.xlsx";
+        String sheetName = "ValidRechargeDetails";
+        return ExcelReader.readRechargeDetails(filePath, fileName, sheetName);
     }
 
 
     @Test(dataProvider = "validRechargeDetails", priority = 1)
-    public void rechargeCardWithValidAmount(String cardId, String password, int amount) throws InterruptedException {
-        webDriver.findElement(By.className("button-primary")).click(); //Login Button
+    public void rechargeCardWithValidAmount(String cardId, String password, String amount) throws InterruptedException {
+        LoginPage loginPage = new LoginPage(webDriver);
+        NavigationBar navigationBar = new NavigationBar(webDriver);
+        RechargePage rechargePage = new RechargePage(webDriver);
+        RechargeStatusPage rechargeStatusPage = new RechargeStatusPage(webDriver);
         Thread.sleep(1000);
-        WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
-        cardIdTextBox.clear();
-        cardIdTextBox.sendKeys(cardId);
-        WebElement passwordTextBox = webDriver.findElement(By.id("password"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys(password);
-        webDriver.findElement(By.className("button-block")).click(); //Login Button
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(4) > a")).click(); //Recharge Button
+        loginPage.setCardId(cardId);
+        loginPage.setPassword(password);
+        loginPage.clickLoginButton();
+        navigationBar.clickRechargeButton(); //Recharge Button
         Thread.sleep(1000);
-        WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
-        try {
-            webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div[1]/div/div/span[2]")));
-            int updatedBalance = Integer.parseInt(webDriver.findElement(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div[1]/div/div/span[2]")).getText()) + amount;
-            WebElement amountTextBox = webDriver.findElement(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div[1]/ul/form/li/span/input"));
-            amountTextBox.clear();
-            amountTextBox.sendKeys(String.valueOf(amount));
-            System.out.println("Updated balance " + updatedBalance);
-            Thread.sleep(1000);
-            webDriver.findElement(By.cssSelector("body > div > div > main > section > div > div > div.pricing-tables-wrap > div > div > div.pricing-table-cta.mb-8 > input")).click();
-            Assert.assertEquals(updatedBalance, Integer.parseInt(webDriver.findElement(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div[1]/div/div/span[2]")).getText()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int updatedBalance = rechargePage.getCurrentBalance() + Integer.parseInt(amount);
+        rechargePage.setAmount(amount);
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
+        rechargePage.clickRechargeButton();
+        Assert.assertEquals(updatedBalance, rechargeStatusPage.getUpdatedBalance());
+        Thread.sleep(1000);
+        navigationBar.clickLogoutButton();
     }
 
 
     @DataProvider(name = "invalidRechargeDetails")
     public static Object[][] invalidRechargeDetails() {
-        return new Object[][]{{"1009", "password", 0}, {"1010", "password", 1010} /*, {"1011", "1011", 10000}*/};
+        String filePath = System.getProperty("user.dir") + "/src/com/metro/testdata";
+        String fileName  = "MetroRechargeTestData.xlsx";
+        String sheetName = "InvalidRechargeDetails";
+        return ExcelReader.readRechargeDetails(filePath, fileName, sheetName);
     }
 
 
     @Test(dataProvider = "invalidRechargeDetails", priority = 5)
-    public void rechargeCardWithInvalidAmount(String cardId, String password, int amount) throws InterruptedException {
-        webDriver.findElement(By.className("button-primary")).click(); //Login Button
+    public void rechargeCardWithInvalidAmount(String cardId, String password, String amount) throws InterruptedException {
+        LoginPage loginPage = new LoginPage(webDriver);
+        NavigationBar navigationBar = new NavigationBar(webDriver);
+        RechargePage rechargePage = new RechargePage(webDriver);
+        RechargeStatusPage rechargeStatusPage = new RechargeStatusPage(webDriver);
         Thread.sleep(1000);
-        WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
-        cardIdTextBox.clear();
-        cardIdTextBox.sendKeys(cardId);
-        WebElement passwordTextBox = webDriver.findElement(By.id("password"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys(password);
-        webDriver.findElement(By.className("button-block")).click(); //Login Button
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(4) > a")).click(); //Recharge Button
+        loginPage.setCardId(cardId);
+        loginPage.setPassword(password);
+        loginPage.clickLoginButton();
+        navigationBar.clickRechargeButton(); //Recharge Button
         Thread.sleep(1000);
-        WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
-        try {
-            WebElement amountTextBox = webDriver.findElement(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div[1]/ul/form/li/span/input"));
-            amountTextBox.clear();
-            amountTextBox.sendKeys(String.valueOf(amount));
-            Thread.sleep(1000);
-            webDriver.findElement(By.cssSelector("body > div > div > main > section > div > div > div.pricing-tables-wrap > div > div > div.pricing-table-cta.mb-8 > input")).click();
-            webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.id("amount.errors")));
-            String message = webDriver.findElement(By.id("amount.errors")).getText();
-            System.out.println(message);
-            Assert.assertTrue(message.equalsIgnoreCase("Must Be Equal or Greater than 1")
-                    || message.equalsIgnoreCase("Must Be Equal or Less Than 1000"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        rechargePage.setAmount(amount);
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
+        rechargePage.clickRechargeButton();
+        String message = rechargeStatusPage.getErrorMessage();
+        System.out.println(message);
+        Assert.assertTrue(message.equalsIgnoreCase("Must Be Equal or Greater than 1")
+                || message.equalsIgnoreCase("Must Be Equal or Less Than 1000"));
+        Thread.sleep(1000);
+        navigationBar.clickLogoutButton();
     }
 
 

@@ -1,5 +1,8 @@
 package com.metro.testcases;
 
+import com.metro.pages.*;
+import com.metro.utilities.ExcelReader;
+import com.metro.utilities.PropertyReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -21,76 +25,78 @@ public class SwipeOutTestCase {
     WebDriver webDriver;
 
     @BeforeMethod
-    public void openBrowser() {
-        System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+    public void openBrowser() throws IOException {
+        System.setProperty("webdriver.chrome.driver", PropertyReader.ReadProperty("chrome_driver_path"));
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setHeadless(false);
         webDriver = new ChromeDriver(chromeOptions);
         webDriver.manage().window().maximize();
-        webDriver.get("https://citymetro.azurewebsites.net");
+        webDriver.get(PropertyReader.ReadProperty("app_url"));
+        HomePage homePage = new HomePage(webDriver);
+        homePage.clickLoginButton();
     }
 
     @DataProvider(name = "validSwipeOutDetails")
     public static Object[][] validSwipeOutDetails() {
-        return new Object[][]{{"1009", "password"}, {"1010", "password"} /*, {"1011", "1011"}*/};
+        String filePath = System.getProperty("user.dir") + "/src/com/metro/testdata";
+        String fileName  = "MetroSwipeOutTestData.xlsx";
+        String sheetName = "ValidSwipeOutDetails";
+        return ExcelReader.readCredentials(filePath, fileName, sheetName);
     }
 
 
     @Test(dataProvider = "validSwipeOutDetails", priority = 1, testName = "Valid Swipe Out")
     public void validSwipeOut(String cardId, String password) throws InterruptedException {
-        webDriver.findElement(By.className("button-primary")).click(); //Login Button
+        LoginPage loginPage = new LoginPage(webDriver);
+        NavigationBar navigationBar = new NavigationBar(webDriver);
+        SwipeOutPage swipeOutPage = new SwipeOutPage(webDriver);
+        SwipeOutStatusPage swipeOutStatusPage = new SwipeOutStatusPage(webDriver);
         Thread.sleep(1000);
-        WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
-        cardIdTextBox.clear();
-        cardIdTextBox.sendKeys(cardId);
-        WebElement passwordTextBox = webDriver.findElement(By.id("password"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys(password);
-        webDriver.findElement(By.className("button-block")).click(); //Login Button
+        loginPage.setCardId(cardId);
+        loginPage.setPassword(password);
+        loginPage.clickLoginButton();
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(6) > a")).click(); //SwipeOut Button
+        navigationBar.clickSwipeOutButton(); //SwipeOut Button
         Thread.sleep(1000);
         int randomNumber = ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        List<WebElement> stationList = webDriver.findElements(By.className("rad-label")); //Get Stations
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber)); //Select a Random Station
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block"))); // SwipeOut Button
-        new WebDriverWait(webDriver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("body > div > div > main > section > div > div > div.pricing-tables-wrap > div > div > div.pricing-table-main > div > h4:nth-child(1)")));
-        String message = webDriver.findElement(By.cssSelector("body > div > div > main > section > div > div > div.pricing-tables-wrap > div > div > div.pricing-table-main > div > h4:nth-child(1)")).getText();
+        List<WebElement> stationList = swipeOutPage.getStations(); //Get Stations
+        swipeOutPage.selectStation(stationList.get(randomNumber)); //Select a Random Station
+        swipeOutPage.clickSwipeOutButton(); // SwipeOut Button
+        String message = swipeOutStatusPage.getMessage();
         Assert.assertEquals(message, "Swipe Out Successful", "Swipe Out Not Possible");
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
+        navigationBar.clickLogoutButton();
     }
 
     @DataProvider(name = "invalidSwipeOutDetails")
     public static Object[][] invalidSwipeOutDetails() {
-        return new Object[][]{{"1006", "password"}, {"1007", "password"}/* , {"1008", "password"}*/};
+        String filePath = System.getProperty("user.dir") + "/src/com/metro/testdata";
+        String fileName  = "MetroSwipeOutTestData.xlsx";
+        String sheetName = "InvalidSwipeOutDetails";
+        return ExcelReader.readCredentials(filePath, fileName, sheetName);
     }
 
     @Test(dataProvider = "invalidSwipeOutDetails", priority = 5, testName = "Invalid Swipe Out")
     public void InvalidSwipeOut(String cardId, String password) throws InterruptedException {
-        webDriver.findElement(By.className("button-primary")).click(); //Login Button
+        LoginPage loginPage = new LoginPage(webDriver);
+        NavigationBar navigationBar = new NavigationBar(webDriver);
+        SwipeOutPage swipeOutPage = new SwipeOutPage(webDriver);
+        SwipeOutStatusPage swipeOutStatusPage = new SwipeOutStatusPage(webDriver);
         Thread.sleep(1000);
-        WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
-        cardIdTextBox.clear();
-        cardIdTextBox.sendKeys(cardId);
-        WebElement passwordTextBox = webDriver.findElement(By.id("password"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys(password);
-        webDriver.findElement(By.className("button-block")).click(); //Login Button
+        loginPage.setCardId(cardId);
+        loginPage.setPassword(password);
+        loginPage.clickLoginButton();
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(6) > a")).click(); //SwipeOut Button
+        navigationBar.clickSwipeOutButton(); //SwipeOut Button
         Thread.sleep(1000);
         int randomNumber = ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        List<WebElement> stationList = webDriver.findElements(By.className("rad-label")); //Get Stations
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber)); //Select a Random Station
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block"))); // SwipeOut Button
-        new WebDriverWait(webDriver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("body > div > div > main > section > div > div > div.pricing-tables-wrap > div > div > div > div > h4")));
-        String message = webDriver.findElement(By.cssSelector("body > div > div > main > section > div > div > div.pricing-tables-wrap > div > div > div > div > h4")).getText();
+        List<WebElement> stationList = swipeOutPage.getStations(); //Get Stations
+        swipeOutPage.selectStation(stationList.get(randomNumber)); //Select a Random Station
+        swipeOutPage.clickSwipeOutButton(); // SwipeOut Button
+        String message = swipeOutStatusPage.getMessage();
         Assert.assertEquals(message, "You Have not Swiped In at any Station!", "Swipe Out Possible");
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
+        navigationBar.clickLogoutButton(); //Logout Button
     }
 
 

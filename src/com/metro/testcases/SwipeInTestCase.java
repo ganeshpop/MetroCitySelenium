@@ -1,5 +1,8 @@
 package com.metro.testcases;
 
+import com.metro.pages.*;
+import com.metro.utilities.ExcelReader;
+import com.metro.utilities.PropertyReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -21,76 +25,78 @@ public class SwipeInTestCase {
     WebDriver webDriver;
 
     @BeforeMethod
-    public void openBrowser() {
-        System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+    public void openBrowser() throws IOException {
+        System.setProperty("webdriver.chrome.driver", PropertyReader.ReadProperty("chrome_driver_path"));
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setHeadless(false);
         webDriver = new ChromeDriver(chromeOptions);
         webDriver.manage().window().maximize();
-        webDriver.get("https://citymetro.azurewebsites.net");
+        webDriver.get(PropertyReader.ReadProperty("app_url"));
+        HomePage homePage = new HomePage(webDriver);
+        homePage.clickLoginButton();
     }
 
     @DataProvider(name = "validSwipeInDetails")
     public static Object[][] validSwipeInDetails() {
-        return new Object[][]{{"1009", "password"}, {"1010", "password"} /*, {"1011", "1011"}*/};
+        String filePath = System.getProperty("user.dir") + "/src/com/metro/testdata";
+        String fileName  = "MetroSwipeInTestData.xlsx";
+        String sheetName = "ValidSwipeInDetails";
+        return ExcelReader.readCredentials(filePath, fileName, sheetName);
     }
 
 
     @Test(dataProvider = "validSwipeInDetails", priority = 1, testName = "Valid Swipe In")
     public void validSwipeIn(String cardId, String password) throws InterruptedException {
-        webDriver.findElement(By.className("button-primary")).click(); //Login Button
+        LoginPage loginPage = new LoginPage(webDriver);
+        NavigationBar navigationBar = new NavigationBar(webDriver);
+        SwipeInPage swipeInPage = new SwipeInPage(webDriver);
+        SwipeInStatusPage swipeInStatusPage = new SwipeInStatusPage(webDriver);
         Thread.sleep(1000);
-        WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
-        cardIdTextBox.clear();
-        cardIdTextBox.sendKeys(cardId);
-        WebElement passwordTextBox = webDriver.findElement(By.id("password"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys(password);
-        webDriver.findElement(By.className("button-block")).click(); //Login Button
+        loginPage.setCardId(cardId);
+        loginPage.setPassword(password);
+        loginPage.clickLoginButton();
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(5) > a")).click(); //SwipeIn Button
+        navigationBar.clickSwipeInButton(); //SwipeIn Button
         Thread.sleep(1000);
         int randomNumber = ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        List<WebElement> stationList = webDriver.findElements(By.className("rad-label")); //Get Stations
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber)); //Select a Random Station
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block"))); // SwipeIn Button
-        new WebDriverWait(webDriver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div/div[1]/h4")));
-        String message = webDriver.findElement(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div/div[1]/h4")).getText();
+        List<WebElement> stationList = swipeInPage.getStations(); //Get Stations
+        swipeInPage.selectStation(stationList.get(randomNumber)); //Select a Random Station
+        swipeInPage.clickSwipeInButton(); // SwipeIn Button
+        String message = swipeInStatusPage.getMessage();
         Assert.assertEquals(message, "Swipe In Successful At Station Station " + randomNumber, "Swipe In Not Possible");
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
+        navigationBar.clickLogoutButton();
     }
 
     @DataProvider(name = "invalidSwipeInDetails")
     public static Object[][] invalidSwipeInDetails() {
-        return new Object[][]{{"1003", "password"}, {"1004", "password"}  /*, {"1005", "password"}*/};
+        String filePath = System.getProperty("user.dir") + "/src/com/metro/testdata";
+        String fileName  = "MetroSwipeInTestData.xlsx";
+        String sheetName = "InvalidSwipeInDetails";
+        return ExcelReader.readCredentials(filePath, fileName, sheetName);
     }
 
     @Test(dataProvider = "invalidSwipeInDetails", priority = 5, testName = "Invalid Swipe In")
     public void InvalidSwipeIn(String cardId, String password) throws InterruptedException {
-        webDriver.findElement(By.className("button-primary")).click(); //Login Button
+        LoginPage loginPage = new LoginPage(webDriver);
+        NavigationBar navigationBar = new NavigationBar(webDriver);
+        SwipeInPage swipeInPage = new SwipeInPage(webDriver);
+        SwipeInStatusPage swipeInStatusPage = new SwipeInStatusPage(webDriver);
         Thread.sleep(1000);
-        WebElement cardIdTextBox = webDriver.findElement(By.id("cardId"));
-        cardIdTextBox.clear();
-        cardIdTextBox.sendKeys(cardId);
-        WebElement passwordTextBox = webDriver.findElement(By.id("password"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys(password);
-        webDriver.findElement(By.className("button-block")).click(); //Login Button
+        loginPage.setCardId(cardId);
+        loginPage.setPassword(password);
+        loginPage.clickLoginButton();
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(5) > a")).click(); //SwipeIn Button
+        navigationBar.clickSwipeInButton(); //SwipeIn Button
         Thread.sleep(1000);
         int randomNumber = ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        List<WebElement> stationList = webDriver.findElements(By.className("rad-label")); //Get Stations
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", stationList.get(randomNumber)); //Select a Random Station
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.className("button-block"))); // SwipeIn Button
-        new WebDriverWait(webDriver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div/div[1]/h4")));
-        String message = webDriver.findElement(By.xpath("/html/body/div/div/main/section/div/div/div[2]/div/div/div/div[1]/h4")).getText();
+        List<WebElement> stationList = swipeInPage.getStations(); //Get Stations
+        swipeInPage.selectStation(stationList.get(randomNumber)); //Select a Random Station
+        swipeInPage.clickSwipeInButton(); // SwipeIn Button
+        String message = swipeInStatusPage.getMessage();
         Assert.assertEquals(message, "You have not Swiped Out from Previous Trip!", "Swipe In Possible");
         Thread.sleep(1000);
-        webDriver.findElement(By.cssSelector("body > nav > ul > li:nth-child(8) > a")).click(); //Logout Button
+        navigationBar.clickLogoutButton();
     }
 
 

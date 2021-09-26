@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite">
+<suite name="City Metro Test Cases">
     <test verbose="2"
-          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/com/metro/testcases/LoginTestCase.java">
+          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/LoginTestCase.java">
         <classes>
             <class name="com.metro.testcases.LoginTestCase">
                 <methods>
@@ -13,7 +13,7 @@
         </classes>
     </test>
     <test verbose="2"
-          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/com/metro/testcases/RechargeTestCase.java">
+          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/RechargeTestCase.java">
         <classes>
             <class name="com.metro.testcases.RechargeTestCase">
                 <methods>
@@ -24,7 +24,7 @@
         </classes>
     </test>
     <test verbose="2"
-          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/com/metro/testcases/SwipeInTestCase.java">
+          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/SwipeInTestCase.java">
         <classes>
             <class name="com.metro.testcases.SwipeInTestCase">
                 <methods>
@@ -35,7 +35,7 @@
         </classes>
     </test>
     <test verbose="2"
-          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/com/metro/testcases/SwipeOutTestCase.java">
+          name="D:/Studies/Wiley/Selenium/MetroCitySelenium/src/testng/SwipeOutTestCase.java">
         <classes>
             <class name="com.metro.testcases.SwipeOutTestCase">
                 <methods>
