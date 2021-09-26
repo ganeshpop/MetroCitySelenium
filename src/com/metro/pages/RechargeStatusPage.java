@@ -24,8 +24,8 @@ public class RechargeStatusPage {
     public int getUpdatedBalance() {
         WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
         try {
-            webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(ObjectRepos.RechargeStatusPage.updated_balance_container_xpath)));
-            return Integer.parseInt(updatedBalanceContainer.getText());
+            webDriverWait.until(ExpectedConditions.visibilityOf(updatedBalanceContainer));
+            return Integer.parseInt(updatedBalanceContainer.getText().trim());
         } catch (Exception e) {
             return -1;
         }
@@ -34,7 +34,7 @@ public class RechargeStatusPage {
     public String getErrorMessage() {
         WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
         try {
-            webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.id(ObjectRepos.RechargeStatusPage.error_container_id)));
+            webDriverWait.until(ExpectedConditions.visibilityOf(errorContainer));
             return errorContainer.getText().trim();
         } catch (Exception e) {
             return "Error Message Not Found";

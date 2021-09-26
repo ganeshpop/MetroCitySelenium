@@ -36,7 +36,7 @@ public class RechargePage {
     public int getCurrentBalance() {
         WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
         try {
-            webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(ObjectRepos.RechargePage.balance_container_xpath)));
+            webDriverWait.until(ExpectedConditions.visibilityOf(balanceContainer));
             return Integer.parseInt(balanceContainer.getText());
         } catch (Exception e) {
             return -1;

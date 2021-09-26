@@ -25,7 +25,7 @@ public class SwipeInStatusPage {
 
     public String getMessage() {
         new WebDriverWait(webDriver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(ObjectRepos.SwipeInStatusPage.message_container_xpath)));
+                .until(ExpectedConditions.visibilityOf(message));
         return message.getText();
     }
 

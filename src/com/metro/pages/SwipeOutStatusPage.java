@@ -23,7 +23,7 @@ public class SwipeOutStatusPage {
 
     public String getMessage() {
         new WebDriverWait(webDriver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(ObjectRepos.SwipeOutStatusPage.message_container_css_selector)));
+                .until(ExpectedConditions.visibilityOf(message));
         return message.getText();
     }
 
